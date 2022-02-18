@@ -274,7 +274,7 @@
                (filter #(get-in % [:members member]))
                (first))]
     (when-let [m (get-in c [:members member])]
-      (let [m* (first (sort-by :line (vals m)))
+      (let [m* (first (sort-by (comp (juxt nil? identity) :line) (vals m)))
             static? (or (:static (:modifiers m*)) (= class member))
             +this   (comp vec (partial cons 'this))]
         (-> (dissoc m* :name :argnames)

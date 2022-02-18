@@ -109,7 +109,8 @@
           m4 (member-info 'java.awt.Point 'x)
           m5 (member-info 'java.lang.Class 'forName)
           m6 (member-info 'java.util.AbstractMap 'finalize)
-          m7 (member-info 'java.util.HashMap 'finalize)]
+          m7 (member-info 'java.util.HashMap 'finalize)
+          m8 (member-info 'java.util.Collections 'singletonList)]
       (testing "Member"
         (testing "source file"
           (is (string? (:file m1)))
@@ -130,7 +131,9 @@
         (testing "implemented on immediate superclass"
           (is (not= 'java.lang.Object (:class m6))))
         (testing "implemented on ancestor superclass"
-          (is (not= 'java.lang.Object (:class m7))))))))
+          (is (not= 'java.lang.Object (:class m7))))
+        (testing "method overloads with non-nil line number are preferred"
+          (is (contains? m8 :line)))))))
 
 (deftest arglists-test
   (let [+this (comp #{'this} first)]
